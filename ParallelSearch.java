@@ -3,8 +3,6 @@
 // Assignment: MPI Unit II - Parellel Search
 // 2/4/2017
 
-import java.util.*;
-
 
 public class ParallelSearch {
 	private static final int SECTIONS = 5;
