@@ -11,10 +11,8 @@ public class ParallelSearch {
 	
 	public static void main (String [] args) {
 		Random rand = new Random();
-		int [] array = {3,6,9,12,15,18,21,24,27,30};		// Array to be searched
+		int [] array = {3,6,9,12,15,18,21,24,27,30, 33, 36};// Array to be searched
 		int target = 21;									// Target Value
-		while (SECTION >= array.length)						// Make sure we don't have sections > size of array
-			SECTIONS--;
 		System.out.println(process(array, target));			// Master Process
 	}
 
@@ -26,7 +24,6 @@ public class ParallelSearch {
 		int remainder = array.length % SECTIONS;
 		int index = split(array, target, remainder);				// Index of array target is in
 		return index;
-
 	}
 
 	// Parameters:		int [] array - Array to be split up
@@ -36,22 +33,27 @@ public class ParallelSearch {
 	public static int split(int [] array, int target, int padding) {
 		int index = -1;
 		int interval = array.length/SECTIONS;
+		System.out.println(interval);
 		int [] subArray = new int [interval];
-		if (padding > 0)
-			int [] smallSubArray = [padding];
-		for (int i = 0; i < padding; i++) {					// run a subProcess on a subArray
-			smallSubArray[i] = array[i];					// of length padding
-			index = subProcess(smallSubArray, target, 0);
+		if (padding > 0) {
+			int [] smallSubArray = new int [padding];
+			for (int i = 0; i < padding; i++) {				// run a subProcess on a subArray
+				smallSubArray[i] = array[i];				// of length padding
+				index = subProcess(smallSubArray, target, 0);
+			}
 		}
 		if (index != -1)									// If index is valid
 			return index;
-		for (int i = padding; i < SECTIONS; i+interval) {	// 
-			for (int j = 0; j < interval; j++) 				// Create subArray
+		for (int i = padding; i < array.length; i+=interval) {	// 
+			for (int j = 0; j < interval; j++) {			// Create subArray
 				subArray[j] = array[i + j];
+				System.out.println(subArray[j]);
+			}
 			index = subProcess(subArray, target, i);		// Run subProcess on subArray
 			if (index != -1)								// If index is valid
 				return index;
 		}
+		return index;
 	}
 
 	// Parameters:		int [] subArray - Section of original array
@@ -61,9 +63,10 @@ public class ParallelSearch {
 	// Returns:			int - index of the original array, calculated by examining index
 	//					from subArray + offset
 	public static int subProcess(int [] subArray, int target, int offset) {
+		int index = -1;
 		for (int i = 0; i < subArray.length; i++) 			// Traverse Array  
 			if (subArray[i] == target) 						// Check for target value
-				return (i + offset);
-		return -1;
+				index = i + offset;
+		return index;
 	}
 }
