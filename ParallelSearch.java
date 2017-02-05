@@ -7,7 +7,7 @@ import java.util.*;
 
 
 public class ParallelSearch {
-	private static final int SECTIONS = 3;
+	private static final int SECTIONS = 5;
 	
 	public static void main (String [] args) {
 		Random rand = new Random();
@@ -33,7 +33,6 @@ public class ParallelSearch {
 	public static int split(int [] array, int target, int padding) {
 		int index = -1;
 		int interval = array.length/SECTIONS;
-		System.out.println(interval);
 		int [] subArray = new int [interval];
 		if (padding > 0) {
 			int [] smallSubArray = new int [padding];
@@ -47,7 +46,6 @@ public class ParallelSearch {
 		for (int i = padding; i < array.length; i+=interval) {	// 
 			for (int j = 0; j < interval; j++) {			// Create subArray
 				subArray[j] = array[i + j];
-				System.out.println(subArray[j]);
 			}
 			index = subProcess(subArray, target, i);		// Run subProcess on subArray
 			if (index != -1)								// If index is valid
